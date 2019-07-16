@@ -1,6 +1,6 @@
 .. This is a documentation of the Relayr task documentation.
 
-Welcome to Relayr task's documentation!
+Welcome to task 1  documentation!
 ========================================
 The code is written using python 3.6 and can be run from the terminal using (-h: to get more information on the available arguments):
 
