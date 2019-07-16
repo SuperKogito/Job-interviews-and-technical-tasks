@@ -9,6 +9,6 @@ sphinx:
   configuration: Task1/docs/source/conf.py
 
 python:
-  version: 3.7
+  version: 3.6
   install:
     - requirements: Task1/docs/requirements.txt
