@@ -16,7 +16,7 @@ sys.path.insert(0, os.path.abspath('../..'))
 
 # -- Project information -----------------------------------------------------
 
-project   = 'Relayr Task'
+project   = 'Task'
 copyright = '2019, Ayoub Malek'
 author    = 'Ayoub Malek'
 
