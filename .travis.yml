@@ -9,8 +9,9 @@ before_script:
   - sudo pip3 install --upgrade pip
   - sudo apt-get install python-enchant
   - sudo apt-get update
+  - cd Task1
   - sudo pip3 install -r requirements.txt
-  - cd Task1/src
+  - cd src
 
 # command to run tests
 script:
