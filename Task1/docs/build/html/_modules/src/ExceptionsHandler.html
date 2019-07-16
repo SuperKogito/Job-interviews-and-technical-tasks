@@ -1,0 +1,300 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>src.ExceptionsHandler &mdash; Relayr Task  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Relayr Task
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Parser.html">Parser documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Selector.html">Selector documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ExceptionsHandler.html">Exceptions handler documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Relayr Task</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>src.ExceptionsHandler</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for src.ExceptionsHandler</h1><div class="highlight"><pre>
+<span></span><span class="c1"># python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">- Created on: 16.07.2019</span>
+<span class="sd">- Author:     Ayoub Malek</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+
+
+<div class="viewcode-block" id="ExceptionsHandler"><a class="viewcode-back" href="../../ExceptionsHandler.html#src.ExceptionsHandler.ExceptionsHandler">[docs]</a><span class="k">class</span> <span class="nc">ExceptionsHandler</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Handle all exceptions caused by incorrect commands.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        args  (dict)             : dictionray of command arguments.</span>
+<span class="sd">        data  (pandas.DataFrame) : loaded data from csv.</span>
+<span class="sd">        supported_actions (list) : list of supported actions.</span>
+<span class="sd">        exception         (dict) : dictionary of the exception descriptions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">supported_actions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="s2">&quot;avg&quot;</span><span class="p">,</span> <span class="s2">&quot;cnt&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exception</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;MissingArgumentException&quot;</span>          <span class="p">:</span> <span class="s2">&quot;MissingArgumentException: a required argument is missing&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;ActionException&quot;</span>                   <span class="p">:</span> <span class="s2">&quot;ActionException: given action is not supported&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;MeasurementValueException&quot;</span>         <span class="p">:</span> <span class="s2">&quot;MeasurementValueException: no such measurement name in data&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;DeviceIdException&quot;</span>                 <span class="p">:</span> <span class="s2">&quot;DeviceIdException: no such device id in data&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;TimeStampException&quot;</span>                <span class="p">:</span> <span class="s2">&quot;TimeStampException: end timestamp must be after start timestamp&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;IncorrectTimeStampFormatException&quot;</span> <span class="p">:</span> <span class="s2">&quot;IncorrectTimeStampFormatException: timestamp with unexpected format&quot;</span> <span class="p">}</span>
+
+<div class="viewcode-block" id="ExceptionsHandler.check_args"><a class="viewcode-back" href="../../ExceptionsHandler.html#src.ExceptionsHandler.ExceptionsHandler.check_args">[docs]</a>    <span class="k">def</span> <span class="nf">check_args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check parsed command arguments based on agent&#39;s wave file and username.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_action</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_measurement_name</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;device_id&quot;</span><span class="p">]</span>       <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_device_id</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;start_timestamp&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_timestamp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;start_timestamp&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;end_timestamp&quot;</span><span class="p">]</span>   <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_timestamp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;end_timestamp&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;start_timestamp&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;end_timestamp&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">None</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_timestamp</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="ExceptionsHandler.check_action"><a class="viewcode-back" href="../../ExceptionsHandler.html#src.ExceptionsHandler.ExceptionsHandler.check_action">[docs]</a>    <span class="k">def</span> <span class="nf">check_action</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check parsed action argument and raise exception if the action is not supported or if no action is provided.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;action&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">None</span>                       <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">raise_exception</span><span class="p">(</span><span class="s2">&quot;MissingArgumentException&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;action&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">supported_actions</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">raise_exception</span><span class="p">(</span><span class="s2">&quot;ActionException&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExceptionsHandler.check_measurement_name"><a class="viewcode-back" href="../../ExceptionsHandler.html#src.ExceptionsHandler.ExceptionsHandler.check_measurement_name">[docs]</a>    <span class="k">def</span> <span class="nf">check_measurement_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check parsed measurement name argument and raise error if no such measurement name in data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">measurement_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;measurement_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;measurement_name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">None</span>                  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">raise_exception</span><span class="p">(</span><span class="s2">&quot;MissingArgumentException&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;measurement_name&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">measurement_names</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">raise_exception</span><span class="p">(</span><span class="s2">&quot;MeasurementValueException&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExceptionsHandler.check_device_id"><a class="viewcode-back" href="../../ExceptionsHandler.html#src.ExceptionsHandler.ExceptionsHandler.check_device_id">[docs]</a>    <span class="k">def</span> <span class="nf">check_device_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check parsed device id argument and raise exception if there is no such id in data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">device_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;device_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;device_id&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">device_ids</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">raise_exception</span><span class="p">(</span><span class="s2">&quot;DeviceIdException&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExceptionsHandler.check_timestamp"><a class="viewcode-back" href="../../ExceptionsHandler.html#src.ExceptionsHandler.ExceptionsHandler.check_timestamp">[docs]</a>    <span class="k">def</span> <span class="nf">check_timestamp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check parsed timestamp arguments and raise exception in case of wrong format or wrong chronological order.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># check if timestamps format</span>
+        <span class="n">start_timestamp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_timestamp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;start_timestamp&quot;</span><span class="p">])</span>
+        <span class="n">end_timestamp</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_timestamp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;end_timestamp&quot;</span><span class="p">])</span>
+        <span class="c1"># check if timestamps order</span>
+        <span class="k">if</span> <span class="n">start_timestamp</span> <span class="o">&gt;</span> <span class="n">end_timestamp</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">raise_exception</span><span class="p">(</span><span class="s2">&quot;TimeStampException&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExceptionsHandler.validate_timestamp"><a class="viewcode-back" href="../../ExceptionsHandler.html#src.ExceptionsHandler.ExceptionsHandler.validate_timestamp">[docs]</a>    <span class="k">def</span> <span class="nf">validate_timestamp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate the timestamp format otherwise raise in exception.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            timestamp (str) : timestamp argument as a string.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            (datetime.datetime)  : parsed datetime object using the datetime library.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span>              <span class="p">:</span> <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">timestamp</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">raise_exception</span><span class="p">(</span><span class="s2">&quot;IncorrectTimeStampFormatException&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExceptionsHandler.raise_exception"><a class="viewcode-back" href="../../ExceptionsHandler.html#src.ExceptionsHandler.ExceptionsHandler.raise_exception">[docs]</a>    <span class="k">def</span> <span class="nf">raise_exception</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception_key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Raise exception by printing the exception description and exiting.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            exception_key (str) : exception key associated with the exception&#39;s description in the eceptions dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exception</span><span class="p">[</span><span class="n">exception_key</span><span class="p">])</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Ayoub Malek.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
